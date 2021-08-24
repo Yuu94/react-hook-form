@@ -172,6 +172,7 @@ export function createFormControl<
         isValid,
       });
     }
+    return isValid;
   };
 
   const shouldRenderBaseOnError = async (
@@ -189,7 +190,9 @@ export function createFormControl<
     const previousError = get(_formState.errors, name);
     const isValid = !!(
       _proxyFormState.isValid &&
-      (formOptions.resolver ? isValidFromResolver : shouldRenderBaseOnValid())
+      (formOptions.resolver
+        ? isValidFromResolver
+        : await shouldRenderBaseOnValid())
     );
 
     if (props.delayError && error) {
